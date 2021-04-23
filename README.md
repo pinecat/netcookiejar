@@ -46,35 +46,35 @@ You can write cookies to a file, and return a string...:
 ```go
 func main() {
     var path string = "/home/<user>/cookies.txt"
-	var cookies []*netcookiejar.NetCookie
-	cookies = append(cookies, &netcookiejar.NetCookie{
-		InclSub: false,
-		Cookie: &http.Cookie{
-			Domain:  ".github.com",
-			Path:    "/",
-			Secure:  true,
-			Expires: time.Now(),
-			Name:    "foo",
-			Value:   "bar",
-		},
-	})
-	cookies = append(cookies, &netcookiejar.NetCookie{
-		InclSub: true,
-		Cookie: &http.Cookie{
-			Domain:  ".github.com",
-			Path:    "/",
-			Secure:  false,
-			Expires: time.Now(),
-			Name:    "wom",
-			Value:   "bat",
-		},
-	})
+    var cookies []*netcookiejar.NetCookie
+    cookies = append(cookies, &netcookiejar.NetCookie{
+	InclSub: false,
+	Cookie: &http.Cookie{
+		Domain:  ".github.com",
+		Path:    "/",
+		Secure:  true,
+		Expires: time.Now(),
+		Name:    "foo",
+		Value:   "bar",
+	},
+    })
+    cookies = append(cookies, &netcookiejar.NetCookie{
+	InclSub: true,
+	Cookie: &http.Cookie{
+		Domain:  ".github.com",
+		Path:    "/",
+		Secure:  false,
+		Expires: time.Now(),
+		Name:    "wom",
+		Value:   "bat",
+	},
+    })
     ncj := netcookiejar.New()
-	cookieString, err := ncj.Write(netcookiejar.MODE_FILE, path, cookies)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(cookieString)
+    cookieString, err := ncj.Write(netcookiejar.MODE_FILE, path, cookies)
+    if err != nil {
+	panic(err)
+    }
+    fmt.Println(cookieString)
     ...
 }
 ```
@@ -83,34 +83,34 @@ func main() {
 ```go
 func main() {
     var cookies []*netcookiejar.NetCookie
-	cookies = append(cookies, &netcookiejar.NetCookie{
-		InclSub: false,
-		Cookie: &http.Cookie{
-			Domain:  ".github.com",
-			Path:    "/",
-			Secure:  true,
-			Expires: time.Now(),
-			Name:    "foo",
-			Value:   "bar",
-		},
-	})
-	cookies = append(cookies, &netcookiejar.NetCookie{
-		InclSub: true,
-		Cookie: &http.Cookie{
-			Domain:  ".github.com",
-			Path:    "/",
-			Secure:  false,
-			Expires: time.Now(),
-			Name:    "wom",
-			Value:   "bat",
-		},
-	})
+    cookies = append(cookies, &netcookiejar.NetCookie{
+        InclSub: false,
+        Cookie: &http.Cookie{
+            Domain:  ".github.com",
+            Path:    "/",
+            Secure:  true,
+            Expires: time.Now(),
+            Name:    "foo",
+            Value:   "bar",
+        },
+    })
+    cookies = append(cookies, &netcookiejar.NetCookie{
+        InclSub: true,
+        Cookie: &http.Cookie{
+            Domain:  ".github.com",
+            Path:    "/",
+            Secure:  false,
+            Expires: time.Now(),
+            Name:    "wom",
+            Value:   "bat",
+        },
+    })
     ncj := netcookiejar.New()
-	cookieString, err := ncj.Write(netcookiejar.MODE_STRING, "", cookies)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(cookieString)
+    cookieString, err := ncj.Write(netcookiejar.MODE_STRING, "", cookies)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(cookieString)
     ...
 }
 ```
