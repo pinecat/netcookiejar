@@ -27,6 +27,11 @@ type NetCookie struct {
 	Cookie  *http.Cookie
 }
 
+type HeaderOptions struct {
+	Secure   bool
+	HttpOnly bool
+}
+
 // New The default constructor for NetCookieJar.
 func New() *NetCookieJar {
 	return &NetCookieJar{}
@@ -57,12 +62,38 @@ func (c NetCookieJar) Write(mode int, path string, cookies []*NetCookie) (string
 }
 
 // Header builds a string from the cookie that can be used in an http request.
-func (c NetCookie) Header() string {
-	return fmt.Sprintf(
-		"%s=%s",
+func (c NetCookie) Header(options *HeaderOptions) string {
+	var resp string
+
+	if options == nil {
+		options = &HeaderOptions{
+			Secure:   false,
+			HttpOnly: false,
+		}
+	}
+
+	resp = fmt.Sprintf(
+		"%s=%s; Expires=%s; Domain=%s; Path=%s;",
 		c.Cookie.Name,
 		c.Cookie.Value,
+		c.Cookie.Expires.Format("Mon, 02 Jan 2006 15:04:05 GMT"),
+		c.Cookie.Domain,
+		c.Cookie.Path,
 	)
+
+	if options.Secure {
+		resp += " Secure;"
+	}
+
+	if options.HttpOnly {
+		resp += " HttpOnly;"
+	}
+
+	if resp[len(resp)-1] == ';' {
+		resp = resp[:len(resp)-1]
+	}
+
+	return resp
 }
 
 // Creates a new scanner on the string, then passes it to the parsing function.
