@@ -57,7 +57,7 @@ func (c NetCookieJar) Write(mode int, path string, cookies []*NetCookie) (string
 }
 
 // Header builds a string from the cookie that can be used in an http request.
-func (c *NetCookie) Header() string {
+func (c NetCookie) Header() string {
 	return fmt.Sprintf(
 		"%s=%s",
 		c.Cookie.Name,
