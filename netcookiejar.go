@@ -41,7 +41,7 @@ func (c NetCookieJar) Read(mode int, data string) ([]*NetCookie, error) {
 	case MODE_FILE:
 		return c.readFile(data)
 	}
-	return nil, errors.New("Invalid mode, please use 'netcookiejar.MODE_STRING' or 'netcookiejar.MODE_FILE'")
+	return nil, errors.New("invalid mode, please use 'netcookiejar.MODE_STRING' or 'netcookiejar.MODE_FILE'")
 }
 
 // Write attempts to write Cookies []*http.Cookie to the specified file in Netscape format (https://curl.se/docs/http-cookies.html).
@@ -54,6 +54,15 @@ func (c NetCookieJar) Write(mode int, path string, cookies []*NetCookie) (string
 		return c.writeFile(path, cookies)
 	}
 	return "", nil
+}
+
+// Header builds a string from the cookie that can be used in an http request.
+func (c *NetCookie) Header() string {
+	return fmt.Sprintf(
+		"%s=%s",
+		c.Cookie.Name,
+		c.Cookie.Value,
+	)
 }
 
 // Creates a new scanner on the string, then passes it to the parsing function.
@@ -85,7 +94,7 @@ func (c NetCookieJar) parse(s *bufio.Scanner) ([]*NetCookie, error) {
 	for s.Scan() {
 		fields := strings.Split(s.Text(), "\t")
 		if len(fields) < 7 {
-			return nil, errors.New("Invalid format for cookie file, cookie missing a field")
+			return nil, errors.New("invalid format for cookie file, cookie missing a field")
 		}
 
 		// Get domain
